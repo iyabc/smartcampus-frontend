@@ -1,37 +1,35 @@
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import { Text, View } from 'tamagui';
 
 import { ButtonOutlined, ButtonText } from '~/tamagui.config';
 
 type DatePickerBoxProps = {
   label: string;
-  setDelectedDate: Dispatch<SetStateAction<Date>>;
+  date: Date;
+  setSelectedDate: Dispatch<SetStateAction<Date>>;
   isRequired: boolean;
 };
 
-const DateTimePickerBox: FC<DatePickerBoxProps> = ({ label, setDelectedDate, isRequired }) => {
-  const [date, setDate] = useState<Date>(new Date());
+const DateTimePickerBox: FC<DatePickerBoxProps> = ({
+  label,
+  date,
+  setSelectedDate,
+  isRequired,
+}) => {
+  const [isDateTimeVisible, setIsDateTimeVisible] = useState(false);
 
-  const openDatePickHandler = () => {
-    DateTimePickerAndroid.open({
-      mode: 'date',
-      value: date,
-      onChange: (event: any, newDate: any) => {
-        if (newDate) {
-          DateTimePickerAndroid.open({
-            mode: 'time',
-            value: newDate,
-            onChange: (_, newDateTime) => {
-              if (newDateTime) {
-                setDate(newDateTime);
-                setDelectedDate(newDateTime);
-              }
-            },
-          });
-        }
-      },
-    });
+  const showDateTimePicker = () => {
+    setIsDateTimeVisible(true);
+  };
+
+  const hideDateTimePicker = () => {
+    setIsDateTimeVisible(false);
+  };
+
+  const handleDatePicked = (date: Date) => {
+    setSelectedDate(date);
+    hideDateTimePicker();
   };
 
   const formattedDate = `${date.toLocaleDateString()} `;
@@ -46,7 +44,7 @@ const DateTimePickerBox: FC<DatePickerBoxProps> = ({ label, setDelectedDate, isR
         {label}
       </Text>
       <ButtonOutlined
-        onPress={openDatePickHandler}
+        onPress={showDateTimePicker}
         display="flex"
         flexDirection="column"
         alignItems="center"
@@ -54,6 +52,12 @@ const DateTimePickerBox: FC<DatePickerBoxProps> = ({ label, setDelectedDate, isR
         <ButtonText color="$black">{formattedDate}</ButtonText>
         <ButtonText color="$black">{formattedTime}</ButtonText>
       </ButtonOutlined>
+      <DateTimePicker
+        isVisible={isDateTimeVisible}
+        onConfirm={handleDatePicked}
+        onCancel={hideDateTimePicker}
+        mode="datetime"
+      />
     </View>
   );
 };

@@ -88,10 +88,20 @@ const AddReservationForm = () => {
       </XStack>
       <XStack gap={20}>
         <View flex={1}>
-          <DateTimePickerBox label="Start" setDelectedDate={setStartDateTime} isRequired />
+          <DateTimePickerBox
+            label="Start"
+            setSelectedDate={setStartDateTime}
+            isRequired
+            date={startDateTime}
+          />
         </View>
         <View flex={1}>
-          <DateTimePickerBox label="End" setDelectedDate={setEndDateTime} isRequired />
+          <DateTimePickerBox
+            label="End"
+            setSelectedDate={setEndDateTime}
+            isRequired
+            date={endDateTime}
+          />
         </View>
       </XStack>
       <MainButton onPress={handleSubmit} text="Submit" textColor="$white" backgroundColor="$red" />
