@@ -22,8 +22,7 @@ const StudentTeacherHeader = () => {
             contentFit="contain"
             transition={1000}
           />
-          <Ionicons name="notifications" size={24} color="black" />
-          {/* <Ionicons name="notifications" size={24} color={tokens.color.white.val} /> */}
+          <Ionicons name="notifications" size={24} color={tokens.color.white.val} />
         </XStack>
         <YStack alignItems="center" gap={10}>
           <View
@@ -36,7 +35,7 @@ const StudentTeacherHeader = () => {
             alignItems="center"
             justifyContent="flex-end"
             alignSelf="center">
-            {/* <Image
+            <Image
               source={{
                 uri: 'https://cipsjtikuxepydmaukzr.supabase.co/storage/v1/object/public/assets/person_placeholder.png?t=2024-03-10T03%3A53%3A13.330Z',
               }}
@@ -46,7 +45,7 @@ const StudentTeacherHeader = () => {
               }}
               contentFit="contain"
               transition={1000}
-            /> */}
+            />
           </View>
           <Text color="$white" fontSize={18}>
             {user?.email}
@@ -56,10 +55,12 @@ const StudentTeacherHeader = () => {
       <View
         backgroundColor={backgroundColor}
         height={35}
-        borderBottomLeftRadius={30}
-        borderBottomRightRadius={30}
+        borderColor="$colorTransparent"
+        borderBottomLeftRadius={45}
+        borderBottomRightRadius={45}
         position="relative"
-        paddingTop={45}>
+        paddingTop={45}
+        marginTop={-1}>
         <View position="absolute" alignItems="center" bottom={-20} width="100%" zIndex={999}>
           <View
             borderRadius="$radius.small"

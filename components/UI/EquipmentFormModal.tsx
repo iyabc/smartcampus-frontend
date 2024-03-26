@@ -1,7 +1,7 @@
-import { AntDesign, FontAwesome5, FontAwesome } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5, FontAwesome, Entypo } from '@expo/vector-icons';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
-import { Dialog, ScrollView, Text, View, YStack, XStack, ButtonText, Button } from 'tamagui';
+import { Dialog, ScrollView, Text, View, YStack, XStack, ButtonText } from 'tamagui';
 
 import FormGroup from './FormGroup';
 import MainButton from '../Buttons/MainButton';
@@ -143,15 +143,12 @@ const EquipmentFormModal = ({
                 />
               </View>
               <View marginTop={25} alignItems="center">
-                {/* <Entypo
+                <Entypo
                   name="circle-with-plus"
                   size={24}
                   color="green"
                   onPress={addEquipmentInput}
-                /> */}
-                <Button onPress={addEquipmentInput}>
-                  <ButtonText>+</ButtonText>
-                </Button>
+                />
               </View>
             </XStack>
             {equipmentInputs &&

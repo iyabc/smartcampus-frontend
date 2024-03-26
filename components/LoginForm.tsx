@@ -29,7 +29,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ displayType, onBackToHome }) => {
     try {
       setLoading(true);
       const user = await signIn(email, password, displayType);
-      console.log('user: ', user);
       if (user) {
         deleteSecureValue('accessToken');
         deleteSecureValue('userId');

@@ -1,4 +1,6 @@
+import { router } from 'expo-router';
 import React, { Dispatch, SetStateAction, useState } from 'react';
+import { Alert, ToastAndroid } from 'react-native';
 import { Form, View, XStack } from 'tamagui';
 
 import MainButton from '../Buttons/MainButton';
@@ -10,10 +12,8 @@ import SelectModal from '../UI/SelectModal';
 import { useFacilities } from '~/contexts/FacilitiesContext';
 import { useUser } from '~/contexts/UserContext';
 import { addReservation } from '~/utils/reservation';
-import { Equipment, Facility, Reservation } from '~/utils/types';
-import { Alert, ToastAndroid } from 'react-native';
 import { getSecureValue } from '~/utils/secureStore';
-import { router } from 'expo-router';
+import { Equipment, Facility, Reservation } from '~/utils/types';
 
 const AddReservationForm = () => {
   const [name, setName] = useState<string>('');
@@ -50,7 +50,7 @@ const AddReservationForm = () => {
           `Reservation for facility ${formData.facilityId} added.`,
           ToastAndroid.CENTER
         );
-        router.replace('/dashboard/');
+        router.replace('/');
       }
     } catch (error: any) {
       Alert.alert(error.message);

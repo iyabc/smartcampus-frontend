@@ -1,7 +1,7 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import * as Font from 'expo-font';
+import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useColorScheme } from 'react-native';
 import { TamaguiProvider } from 'tamagui';
 
@@ -13,17 +13,17 @@ import config from '~/tamagui.config';
 export default function Layout() {
   const colorScheme = useColorScheme();
 
-  Font.loadAsync({
+  const [fontsLoaded, fontError] = useFonts({
     Inter: require('../assets/fonts/Inter-Regular.ttf'),
   });
 
   useCallback(async () => {
-    if (Font.isLoaded('Inter')) {
+    if (fontsLoaded || fontError) {
       await SplashScreen.hideAsync();
     }
-  }, []);
+  }, [fontsLoaded, fontError]);
 
-  if (Font.isLoaded('Inter') && !Font.isLoading) {
+  if (!fontsLoaded && !fontError) {
     return null;
   }
 

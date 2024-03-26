@@ -20,7 +20,7 @@ const PageHeader = ({ title }: { title: string }) => {
           contentFit="contain"
           transition={1000}
         />
-        <Link href="/dashboard/">
+        <Link href="/">
           <Ionicons name="caret-back-circle" size={30} color={tokens.color.red.val} />
         </Link>
       </XStack>
