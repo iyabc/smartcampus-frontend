@@ -14,3 +14,18 @@ export const getAllFacilities = async (accessToken: string) => {
 
   return facilities;
 };
+
+export const getFacility = async (id: number, accessToken: string) => {
+  const response = await fetch(`${BACKEND_URL}/facilities/${id}`, {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (!response.ok) {
+    throw new Error('Error fetching facility details.');
+  }
+
+  const result = await response.json();
+
+  return result;
+};

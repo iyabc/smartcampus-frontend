@@ -1,10 +1,11 @@
+import { ResizeMode, Video } from 'expo-av';
 import { Image } from 'expo-image';
 import { useState } from 'react';
 import { ActivityIndicator, useWindowDimensions } from 'react-native';
 import { Main, YStack, View } from 'tamagui';
 
 import MainButton from '~/components/Buttons/MainButton';
-import LoginForm from '~/components/LoginForm';
+import LoginForm from '~/components/Forms/LoginForm';
 import { Container } from '~/tamagui.config';
 import { UserType } from '~/utils/types';
 

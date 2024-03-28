@@ -10,12 +10,14 @@ const FormGroup = ({
   isRequired,
   onChange,
   type,
+  isDisabled,
 }: {
   label: string;
   value?: any;
   isRequired: boolean;
   onChange: Dispatch<SetStateAction<any>>;
   type?: KeyboardTypeOptions | undefined;
+  isDisabled?: boolean;
 }) => {
   return (
     <YStack>
@@ -25,7 +27,14 @@ const FormGroup = ({
         </View>
         {label}
       </Text>
-      <InputOutlined onChangeText={onChange} height={40} value={value} keyboardType={type} />
+      <InputOutlined
+        onChangeText={onChange}
+        height={40}
+        value={value}
+        keyboardType={type}
+        readOnly={isDisabled}
+        variant={isDisabled ? 'disabled' : 'primary'}
+      />
     </YStack>
   );
 };

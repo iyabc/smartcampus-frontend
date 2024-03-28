@@ -13,7 +13,7 @@ import { deleteSecureValue } from '~/utils/secureStore';
 import { UserFull } from '~/utils/types';
 
 const Dashboard = ({ currentUser }: { currentUser: UserFull }) => {
-  const { user, changeUser } = useUser();
+  const { changeUser } = useUser();
   const iconColor: string = tokens.color.red.val;
 
   const handleLogout = () => {
@@ -41,13 +41,11 @@ const Dashboard = ({ currentUser }: { currentUser: UserFull }) => {
               href="/add-reservation"
             />
             <ButtonWithIcon
-              iconName="search"
-              text="Search Reservation"
+              iconName="eye"
+              text="View Reservation"
               color={iconColor}
-              href="/"
+              href="/view-edit-reservation"
             />
-            <ButtonWithIcon iconName="pencil" text="Edit Reservation" color={iconColor} href="/" />
-            <ButtonWithIcon iconName="eye" text="View Reservation" color={iconColor} href="/" />
           </YStack>
           <MainButton
             text="Logout"

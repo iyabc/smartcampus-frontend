@@ -131,6 +131,7 @@ const EquipmentFormModal = ({
                   value={currentEquipmentName}
                   onChange={(value: string) => setCurrentEquipmentName(value)}
                   isRequired
+                  isDisabled={false}
                 />
               </View>
               <View flex={1}>
@@ -140,6 +141,7 @@ const EquipmentFormModal = ({
                   onChange={(value: number) => setCurrentEquipmentQuantity(value)}
                   type="number-pad"
                   isRequired
+                  isDisabled={false}
                 />
               </View>
               <View marginTop={25} alignItems="center">
@@ -160,10 +162,14 @@ const EquipmentFormModal = ({
                   justifyContent="center"
                   marginBottom={20}>
                   <View flex={1}>
-                    <InputOutlined value={equipment.name} />
+                    <InputOutlined value={equipment.name} variant="disabled" readOnly />
                   </View>
                   <View flex={1}>
-                    <InputOutlined value={equipment.quantity.toString()} />
+                    <InputOutlined
+                      value={equipment.quantity.toString()}
+                      variant="disabled"
+                      readOnly
+                    />
                   </View>
                   <View>
                     <FontAwesome
