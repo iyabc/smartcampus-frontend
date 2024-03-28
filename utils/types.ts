@@ -25,14 +25,15 @@ export type Reservation = {
   equipmentQty: number[];
   equipments: string[];
   facilityId: number;
-  filingDate: string;
+  filingDate?: string;
   id?: string;
   purpose: string;
   startDate: Date;
-  status: string;
+  status?: string;
   userId?: string;
   fullName?: string;
   professorName?: string;
+  classGrade?: string;
 };
 
 export type ReservationWithDetails = {

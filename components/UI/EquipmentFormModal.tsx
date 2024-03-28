@@ -16,7 +16,7 @@ const EquipmentFormModal = ({
   setIsOpen,
 }: {
   initialEquipments: Equipment[] | undefined;
-  setEquipments: Dispatch<SetStateAction<Equipment[] | undefined>>;
+  setEquipments: Dispatch<SetStateAction<Equipment[]>>;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) => {

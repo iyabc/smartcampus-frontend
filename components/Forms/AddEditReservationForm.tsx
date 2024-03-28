@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ToastAndroid } from 'react-native';
-import { Form, ScrollView, View, XStack, YStack } from 'tamagui';
+import { Form, ScrollView, View } from 'tamagui';
 
 import MainButton from '../Buttons/MainButton';
 import DateTimePickerBox from '../UI/DateTimePickerBox';
@@ -11,6 +11,7 @@ import SelectModal from '../UI/SelectModal';
 
 import { useFacilities } from '~/contexts/FacilitiesContext';
 import { useUser } from '~/contexts/UserContext';
+import { XStackSpaceBetween } from '~/tamagui.config';
 import { addReservation, editReservation } from '~/utils/reservation';
 import { getSecureValue } from '~/utils/secureStore';
 import { Equipment, Facility, Reservation, ReservationWithDetails } from '~/utils/types';
@@ -22,74 +23,53 @@ const AddEditReservationForm = ({
 }: {
   type: 'ADD' | 'EDIT';
   reservation?: ReservationWithDetails;
-  onPressBack?: Dispatch<SetStateAction<Reservation | undefined>>;
+  onPressBack?: () => void;
 }) => {
-  const [facility, setFacility] = useState<Facility | undefined>(undefined);
-  const [equipments, setEquipments] = useState<Equipment[] | undefined>(undefined);
+  const [facility, setFacility] = useState<Facility>();
+  const [equipments, setEquipments] = useState<Equipment[]>([]);
   const [startDateTime, setStartDateTime] = useState<Date>(new Date());
   const [endDateTime, setEndDateTime] = useState<Date>(new Date());
   const [professorName, setProfessorName] = useState<string>('');
+  const [classGrade, setClassGrade] = useState<string>('');
   const [isEquipmentFormModalOpen, setEquipmentFormModalOpen] = useState<boolean>(false);
-
   const { facilities } = useFacilities();
   const { user } = useUser();
 
-  const handleSubmitAdd = async () => {
-    const formData: Reservation = {
-      userId: user?.id,
-      fullName: user?.fullName,
+  const handleSubmit = async () => {
+    let formData: Reservation = {
+      userId: user?.id || '',
       facilityId: facility?.id || 0,
       department: '',
       purpose: '',
       startDate: startDateTime,
       endDate: endDateTime,
-      status: 'PENDING',
-      equipments: equipments?.map((equipment: Equipment) => equipment.name) || [],
-      equipmentQty: equipments?.map((equipment: Equipment) => Number(equipment.quantity)) || [],
-      filingDate: '',
-      id: user?.idNum || '',
-      professorName,
+      equipments: equipments?.map((equipment) => equipment.name),
+      equipmentQty: equipments?.map((equipment) => Number(equipment.quantity)),
+      professorName: user?.role === 'STUDENT' ? professorName : undefined,
+      classGrade: user?.role === 'TEACHER' ? classGrade : undefined,
     };
+
+    if (type === 'ADD') {
+      formData = {
+        ...formData,
+        fullName: user?.fullName || '',
+        id: user?.idNum || '',
+      };
+    }
 
     try {
       const token = await getSecureValue('accessToken');
       if (token) {
-        await addReservation(formData, token);
-        ToastAndroid.show(
-          `Reservation for facility ${formData.facilityId} added.`,
-          ToastAndroid.CENTER
-        );
-        router.replace('/');
-      }
-    } catch (error: any) {
-      Alert.alert(error.message);
-    }
-  };
-
-  const handleSubmitEdit = async () => {
-    if (!reservation) {
-      return;
-    }
-
-    const formData: Reservation = {
-      userId: user?.id,
-      facilityId: facility?.id || 0,
-      department: '',
-      purpose: '',
-      startDate: startDateTime,
-      endDate: endDateTime,
-      status: reservation.reservation.status,
-      equipments: equipments?.map((equipment: Equipment) => equipment.name) || [],
-      equipmentQty: equipments?.map((equipment: Equipment) => Number(equipment.quantity)) || [],
-      filingDate: reservation?.reservation.filingDate,
-      professorName,
-    };
-
-    try {
-      const token = await getSecureValue('accessToken');
-      if (token && reservation.reservation.id) {
-        await editReservation(formData, reservation.reservation.id, token);
-        ToastAndroid.show(`Reservation edited.`, ToastAndroid.CENTER);
+        if (type === 'ADD') {
+          await addReservation(formData, token);
+          ToastAndroid.show(
+            `Reservation for facility ${formData.facilityId} added.`,
+            ToastAndroid.CENTER
+          );
+        } else if (type === 'EDIT' && reservation?.reservation.id) {
+          await editReservation(formData, reservation.reservation.id, token);
+          ToastAndroid.show(`Reservation edited.`, ToastAndroid.CENTER);
+        }
         router.replace('/');
       }
     } catch (error: any) {
@@ -99,8 +79,7 @@ const AddEditReservationForm = ({
 
   useEffect(() => {
     if (type === 'EDIT' && reservation) {
-      console.log(reservation);
-      setFacility({ id: Number(reservation.reservation.id), name: reservation.facilityName });
+      setFacility({ id: reservation.reservation.facilityId, name: reservation.facilityName });
       setEquipments(
         reservation.reservation.equipments.map((name, index) => ({
           name,
@@ -112,6 +91,9 @@ const AddEditReservationForm = ({
       if (reservation.reservation.professorName) {
         setProfessorName(reservation.reservation.professorName);
       }
+      if (reservation.reservation.classGrade) {
+        setClassGrade(reservation.reservation.classGrade);
+      }
     }
   }, [reservation, type]);
 
@@ -120,7 +102,7 @@ const AddEditReservationForm = ({
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 200}>
-        <ScrollView>
+        <ScrollView contentContainerStyle={{ gap: 10 }}>
           <FormGroup
             label="Full Name"
             onChange={() => {}}
@@ -135,7 +117,7 @@ const AddEditReservationForm = ({
             isDisabled
             isRequired
           />
-          <XStack gap={20}>
+          <XStackSpaceBetween gap={20} alignItems="center">
             <View flex={1}>
               <SelectModal
                 label="Facility"
@@ -153,8 +135,8 @@ const AddEditReservationForm = ({
                 setIsOpen={setEquipmentFormModalOpen}
               />
             </View>
-          </XStack>
-          <XStack gap={20}>
+          </XStackSpaceBetween>
+          <XStackSpaceBetween gap={20}>
             <View flex={1}>
               <DateTimePickerBox
                 label="Start"
@@ -171,31 +153,37 @@ const AddEditReservationForm = ({
                 date={endDateTime}
               />
             </View>
-          </XStack>
+          </XStackSpaceBetween>
           <FormGroup
-            label="Professor's Name"
-            onChange={(value: string) => setProfessorName(value)}
-            value={professorName}
+            label={
+              user?.role === 'STUDENT'
+                ? "Professor's Name"
+                : 'Class Grade and Section (e.g 12 Section)'
+            }
+            value={user?.role === 'STUDENT' ? professorName : classGrade}
+            onChange={(value: string) =>
+              user?.role === 'STUDENT' ? setProfessorName(value) : setClassGrade(value)
+            }
             isRequired
           />
         </ScrollView>
       </KeyboardAvoidingView>
-      <YStack marginTop={20} gap={10}>
+      <View marginTop={20} flexDirection="column" gap={10}>
         <MainButton
-          onPress={type === 'ADD' ? handleSubmitAdd : handleSubmitEdit}
-          text="Submit"
+          onPress={handleSubmit}
+          text={type === 'ADD' ? 'Submit' : 'Save Changes'}
           textColor="$white"
           backgroundColor="$red"
         />
         {type === 'EDIT' && onPressBack && (
           <MainButton
-            onPress={() => onPressBack(undefined)}
+            onPress={onPressBack}
             text="Back"
             textColor="$white"
             backgroundColor="$grey"
           />
         )}
-      </YStack>
+      </View>
     </Form>
   );
 };

@@ -11,12 +11,12 @@ import { signIn, signUp } from '~/utils/auth';
 import { deleteSecureValue, saveSecureValue } from '~/utils/secureStore';
 import { UserType } from '~/utils/types';
 
-type LoginFormProps = {
+type LoginRegisterFormProps = {
   displayType: UserType;
   onBackToHome: () => void;
 };
 
-const LoginForm: React.FC<LoginFormProps> = ({ displayType, onBackToHome }) => {
+const LoginRegisterForm: React.FC<LoginRegisterFormProps> = ({ displayType, onBackToHome }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -105,4 +105,4 @@ const LoginForm: React.FC<LoginFormProps> = ({ displayType, onBackToHome }) => {
   );
 };
 
-export default LoginForm;
+export default LoginRegisterForm;

@@ -5,7 +5,7 @@ import { ActivityIndicator, useWindowDimensions } from 'react-native';
 import { Main, YStack, View } from 'tamagui';
 
 import MainButton from '~/components/Buttons/MainButton';
-import LoginForm from '~/components/Forms/LoginForm';
+import LoginRegisterForm from '~/components/Forms/LoginRegisterForm';
 import { Container } from '~/tamagui.config';
 import { UserType } from '~/utils/types';
 
@@ -71,7 +71,10 @@ const HomeScreen = ({ loading }: { loading: boolean }) => {
                   />
                 </>
               ) : (
-                <LoginForm displayType={userType} onBackToHome={() => setUserType(undefined)} />
+                <LoginRegisterForm
+                  displayType={userType}
+                  onBackToHome={() => setUserType(undefined)}
+                />
               )}
             </YStack>
           ) : (

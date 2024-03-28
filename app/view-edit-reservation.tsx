@@ -172,6 +172,7 @@ const ViewEditReservation = () => {
                     userId: item.item.reservation.userId,
                     fullName: item.item.reservation.fullName,
                     professorName: item.item.reservation.professorName,
+                    classGrade: item.item.reservation.classGrade,
                   },
                   facilityName: item.item.facilityName,
                 }}

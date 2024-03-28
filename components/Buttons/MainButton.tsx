@@ -11,7 +11,7 @@ type props = {
 const MainButton: React.FC<props> = ({ text, textColor, backgroundColor, onPress, disabled }) => {
   return (
     <Button
-      backgroundColor={backgroundColor}
+      backgroundColor={!disabled ? backgroundColor : '$black'}
       onPress={onPress}
       shadowColor="#000"
       shadowOffset={{ height: 2, width: 0 }}
