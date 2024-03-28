@@ -20,17 +20,23 @@ export type UserFull = {
 };
 
 export type Reservation = {
-  userId: string;
-  fullName: string;
-  idNum: string;
-  facilityId: number;
-  department?: string;
-  purpose?: string;
-  startDate: Date;
+  department: string;
   endDate: Date;
-  status: string;
-  equipments: string[];
   equipmentQty: number[];
+  equipments: string[];
+  facilityId: number;
+  filingDate: string;
+  id?: string;
+  purpose: string;
+  startDate: Date;
+  status: string;
+  userId?: string;
+  fullName?: string;
+};
+
+export type ReservationWithDetails = {
+  reservation: Reservation;
+  facilityName: string;
 };
 
 export type User = {

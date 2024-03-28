@@ -8,11 +8,11 @@ import HomeScreen from './HomeScreen';
 import { useFacilities } from '~/contexts/FacilitiesContext';
 import { useSession } from '~/contexts/SessionContext';
 import { useUser } from '~/contexts/UserContext';
-import { getAllFacilities } from '~/utils/data/facilities';
-import { getCurrentUser } from '~/utils/fetch/userFetch';
+import { getAllFacilities } from '~/utils/facilities';
 import { getSecureValue } from '~/utils/secureStore';
 import { supabase } from '~/utils/supabase';
 import { UserFull, Facility } from '~/utils/types';
+import { getCurrentUser } from '~/utils/user';
 
 AppState.addEventListener('change', (state) => {
   if (state === 'active') {

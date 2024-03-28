@@ -11,6 +11,7 @@ import {
   createTokens,
   Input,
   Select,
+  XStack,
 } from 'tamagui';
 
 export const tokens = createTokens({
@@ -105,9 +106,18 @@ export const TextInputBottomBorder = styled(Input, {
 
 export const InputOutlined = styled(Input, {
   borderWidth: 1,
-  backgroundColor: '$colorTransparent',
   borderRadius: '$radius.medium',
   color: '$black',
+  variants: {
+    variant: {
+      primary: {
+        backgroundColor: '$colorTransparent',
+      },
+      disabled: {
+        backgroundColor: '#DBDBDB',
+      },
+    },
+  },
 });
 
 export const SelectTriggerOutlined = styled(Select.Trigger, {
@@ -121,6 +131,23 @@ export const ButtonText = styled(SizableText, {
   fontSize: 16,
   fontWeight: '600',
   textAlign: 'center',
+});
+
+export const TextWhite = styled(SizableText, {
+  color: '$white',
+});
+
+export const XStackSpaceBetween = styled(XStack, {
+  justifyContent: 'space-between',
+  width: '100%',
+});
+
+export const ReservationCardButton = styled(Button, {
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: '$blue',
+  padding: 25,
+  borderRadius: '$radius.large',
 });
 
 const config = createTamagui({

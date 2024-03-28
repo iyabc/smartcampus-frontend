@@ -1,6 +1,6 @@
 import { View } from 'tamagui';
 
-import AddReservationForm from '~/components/AddReservation/AddReservationForm';
+import AddEditReservationForm from '~/components/Forms/AddEditReservationForm';
 import PageHeader from '~/components/Headers/PageHeader';
 import PageWrapper from '~/components/UI/PageWrapper';
 
@@ -9,7 +9,7 @@ const AddReservation = () => {
     <PageWrapper>
       <PageHeader title="Add Reservation Form" />
       <View marginTop={20}>
-        <AddReservationForm />
+        <AddEditReservationForm type="ADD" />
       </View>
     </PageWrapper>
   );

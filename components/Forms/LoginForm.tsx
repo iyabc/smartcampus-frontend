@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ActivityIndicator, Alert } from 'react-native';
 import { Button, ButtonText, YStack } from 'tamagui';
 
-import MainButton from './Buttons/MainButton';
+import MainButton from '../Buttons/MainButton';
 
 import { useUser } from '~/contexts/UserContext';
 import { TextInputBottomBorder, tokens } from '~/tamagui.config';
