@@ -32,6 +32,7 @@ export type Reservation = {
   status: string;
   userId?: string;
   fullName?: string;
+  professorName?: string;
 };
 
 export type ReservationWithDetails = {

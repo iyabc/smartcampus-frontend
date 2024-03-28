@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Alert, ToastAndroid } from 'react-native';
-import { Form, View, XStack, YStack } from 'tamagui';
+import { Alert, KeyboardAvoidingView, Platform, ToastAndroid } from 'react-native';
+import { Form, ScrollView, View, XStack, YStack } from 'tamagui';
 
 import MainButton from '../Buttons/MainButton';
 import DateTimePickerBox from '../UI/DateTimePickerBox';
@@ -28,6 +28,7 @@ const AddEditReservationForm = ({
   const [equipments, setEquipments] = useState<Equipment[] | undefined>(undefined);
   const [startDateTime, setStartDateTime] = useState<Date>(new Date());
   const [endDateTime, setEndDateTime] = useState<Date>(new Date());
+  const [professorName, setProfessorName] = useState<string>('');
   const [isEquipmentFormModalOpen, setEquipmentFormModalOpen] = useState<boolean>(false);
 
   const { facilities } = useFacilities();
@@ -47,6 +48,7 @@ const AddEditReservationForm = ({
       equipmentQty: equipments?.map((equipment: Equipment) => Number(equipment.quantity)) || [],
       filingDate: '',
       id: user?.idNum || '',
+      professorName,
     };
 
     try {
@@ -80,6 +82,7 @@ const AddEditReservationForm = ({
       equipments: equipments?.map((equipment: Equipment) => equipment.name) || [],
       equipmentQty: equipments?.map((equipment: Equipment) => Number(equipment.quantity)) || [],
       filingDate: reservation?.reservation.filingDate,
+      professorName,
     };
 
     try {
@@ -96,6 +99,7 @@ const AddEditReservationForm = ({
 
   useEffect(() => {
     if (type === 'EDIT' && reservation) {
+      console.log(reservation);
       setFacility({ id: Number(reservation.reservation.id), name: reservation.facilityName });
       setEquipments(
         reservation.reservation.equipments.map((name, index) => ({
@@ -105,56 +109,77 @@ const AddEditReservationForm = ({
       );
       setStartDateTime(new Date(reservation.reservation.startDate));
       setEndDateTime(new Date(reservation.reservation.endDate));
+      if (reservation.reservation.professorName) {
+        setProfessorName(reservation.reservation.professorName);
+      }
     }
   }, [reservation, type]);
 
   return (
     <Form height="100%" gap={10} onSubmit={() => {}}>
-      <FormGroup
-        label="Full Name"
-        onChange={() => {}}
-        value={user?.fullName}
-        isDisabled
-        isRequired
-      />
-      <FormGroup label="ID Number" onChange={() => {}} value={user?.idNum} isDisabled isRequired />
-      <XStack gap={20}>
-        <View flex={1}>
-          <SelectModal
-            label="Facility"
-            isRequired={false}
-            onChange={setFacility}
-            selectedItem={facility}
-            items={facilities}
-          />
-        </View>
-        <View flex={1}>
-          <EquipmentFormModal
-            setEquipments={setEquipments}
-            initialEquipments={equipments}
-            isOpen={isEquipmentFormModalOpen}
-            setIsOpen={setEquipmentFormModalOpen}
-          />
-        </View>
-      </XStack>
-      <XStack gap={20}>
-        <View flex={1}>
-          <DateTimePickerBox
-            label="Start"
-            setSelectedDate={setStartDateTime}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 200}>
+        <ScrollView>
+          <FormGroup
+            label="Full Name"
+            onChange={() => {}}
+            value={user?.fullName}
+            isDisabled
             isRequired
-            date={startDateTime}
           />
-        </View>
-        <View flex={1}>
-          <DateTimePickerBox
-            label="End"
-            setSelectedDate={setEndDateTime}
+          <FormGroup
+            label="ID Number"
+            onChange={() => {}}
+            value={user?.idNum}
+            isDisabled
             isRequired
-            date={endDateTime}
           />
-        </View>
-      </XStack>
+          <XStack gap={20}>
+            <View flex={1}>
+              <SelectModal
+                label="Facility"
+                isRequired={false}
+                onChange={setFacility}
+                selectedItem={facility}
+                items={facilities}
+              />
+            </View>
+            <View flex={1}>
+              <EquipmentFormModal
+                setEquipments={setEquipments}
+                initialEquipments={equipments}
+                isOpen={isEquipmentFormModalOpen}
+                setIsOpen={setEquipmentFormModalOpen}
+              />
+            </View>
+          </XStack>
+          <XStack gap={20}>
+            <View flex={1}>
+              <DateTimePickerBox
+                label="Start"
+                setSelectedDate={setStartDateTime}
+                isRequired
+                date={startDateTime}
+              />
+            </View>
+            <View flex={1}>
+              <DateTimePickerBox
+                label="End"
+                setSelectedDate={setEndDateTime}
+                isRequired
+                date={endDateTime}
+              />
+            </View>
+          </XStack>
+          <FormGroup
+            label="Professor's Name"
+            onChange={(value: string) => setProfessorName(value)}
+            value={professorName}
+            isRequired
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
       <YStack marginTop={20} gap={10}>
         <MainButton
           onPress={type === 'ADD' ? handleSubmitAdd : handleSubmitEdit}

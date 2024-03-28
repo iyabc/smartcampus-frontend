@@ -171,6 +171,7 @@ const ViewEditReservation = () => {
                     status: item.item.reservation.status,
                     userId: item.item.reservation.userId,
                     fullName: item.item.reservation.fullName,
+                    professorName: item.item.reservation.professorName,
                   },
                   facilityName: item.item.facilityName,
                 }}
