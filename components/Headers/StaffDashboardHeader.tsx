@@ -1,6 +1,7 @@
 import { Image } from 'expo-image';
 import { Platform } from 'react-native';
 import { View, XStack } from 'tamagui';
+import StaffProfileModal from '../UI/StaffProfileModal';
 
 const StaffDashboardHeader = () => {
   return (
@@ -24,28 +25,7 @@ const StaffDashboardHeader = () => {
           contentFit="contain"
           transition={1000}
         />
-        <View
-          backgroundColor="$grey"
-          width={35}
-          height={35}
-          borderRadius={50}
-          position="relative"
-          overflow="hidden"
-          alignItems="center"
-          justifyContent="flex-end"
-          alignSelf="center">
-          <Image
-            source={{
-              uri: 'https://cipsjtikuxepydmaukzr.supabase.co/storage/v1/object/public/assets/person_placeholder.png?t=2024-03-10T03%3A53%3A13.330Z',
-            }}
-            style={{
-              width: 25,
-              height: 25,
-            }}
-            contentFit="contain"
-            transition={1000}
-          />
-        </View>
+        <StaffProfileModal />
       </XStack>
     </View>
   );
