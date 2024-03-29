@@ -5,7 +5,7 @@ import { Text, View, XStack, YStack } from 'tamagui';
 import { useUser } from '~/contexts/UserContext';
 import { tokens } from '~/tamagui.config';
 
-const StudentTeacherHeader = () => {
+const StudentTeacherDashboardHeader = () => {
   const { user } = useUser();
   const backgroundColor = tokens.color.blue.val;
 
@@ -78,4 +78,4 @@ const StudentTeacherHeader = () => {
   );
 };
 
-export default StudentTeacherHeader;
+export default StudentTeacherDashboardHeader;
