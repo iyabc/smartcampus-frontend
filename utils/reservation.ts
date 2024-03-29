@@ -2,6 +2,21 @@ import { BACKEND_URL } from '@env';
 
 import { Reservation } from './types';
 
+export const getAllReservations = async (accessToken: string) => {
+  const response = await fetch(`${BACKEND_URL}/reservations`, {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (!response.ok) {
+    throw new Error('Error fetching reservations.');
+  }
+
+  const result = await response.json();
+
+  return result;
+};
+
 export const getReservation = async (id: string, accessToken: string) => {
   const response = await fetch(`${BACKEND_URL}/reservations/${id}`, {
     method: 'GET',

@@ -72,8 +72,6 @@ const Index = () => {
       setSession(session);
       fetchDetails();
     });
-
-    console.log(user);
   }, []);
 
   if (session && session.user && user) {

@@ -4,10 +4,10 @@ import { Alert, KeyboardAvoidingView, Platform, ToastAndroid } from 'react-nativ
 import { Form, ScrollView, View } from 'tamagui';
 
 import MainButton from '../Buttons/MainButton';
-import DateTimePickerBox from '../UI/DateTimePickerBox';
-import EquipmentFormModal from '../UI/EquipmentFormModal';
+import DateTimePickerBox from '../Modals/DateTimePickerBox';
+import EquipmentFormModal from '../Modals/EquipmentFormModal';
+import SelectModal from '../Modals/SelectModal';
 import FormGroup from '../UI/FormGroup';
-import SelectModal from '../UI/SelectModal';
 
 import { useFacilities } from '~/contexts/FacilitiesContext';
 import { useUser } from '~/contexts/UserContext';
@@ -143,6 +143,7 @@ const AddEditReservationForm = ({
                 setSelectedDate={setStartDateTime}
                 isRequired
                 date={startDateTime}
+                mode="datetime"
               />
             </View>
             <View flex={1}>
@@ -151,6 +152,7 @@ const AddEditReservationForm = ({
                 setSelectedDate={setEndDateTime}
                 isRequired
                 date={endDateTime}
+                mode="datetime"
               />
             </View>
           </XStackSpaceBetween>

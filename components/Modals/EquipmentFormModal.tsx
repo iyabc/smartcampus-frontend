@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { Dialog, ScrollView, Text, View, YStack, XStack, ButtonText } from 'tamagui';
 
-import FormGroup from './FormGroup';
+import FormGroup from '../UI/FormGroup';
 import MainButton from '../Buttons/MainButton';
 
 import { ButtonOutlined, InputOutlined, tokens } from '~/tamagui.config';

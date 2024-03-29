@@ -9,6 +9,7 @@ type DatePickerBoxProps = {
   date: Date;
   setSelectedDate: Dispatch<SetStateAction<Date>>;
   isRequired: boolean;
+  mode: 'date' | 'time' | 'datetime' | undefined;
 };
 
 const DateTimePickerBox: FC<DatePickerBoxProps> = ({
@@ -16,6 +17,7 @@ const DateTimePickerBox: FC<DatePickerBoxProps> = ({
   date,
   setSelectedDate,
   isRequired,
+  mode,
 }) => {
   const [isDateTimeVisible, setIsDateTimeVisible] = useState(false);
 
@@ -56,7 +58,7 @@ const DateTimePickerBox: FC<DatePickerBoxProps> = ({
         isVisible={isDateTimeVisible}
         onConfirm={handleDatePicked}
         onCancel={hideDateTimePicker}
-        mode="datetime"
+        mode={mode}
       />
     </View>
   );

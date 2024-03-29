@@ -1,7 +1,8 @@
 import { Image } from 'expo-image';
 import { Platform } from 'react-native';
 import { View, XStack } from 'tamagui';
-import StaffProfileModal from '../UI/StaffProfileModal';
+
+import StaffProfileModal from '../Modals/StaffProfileModal';
 
 const StaffDashboardHeader = () => {
   return (
