@@ -1,4 +1,5 @@
 import { Image } from 'expo-image';
+import { useState } from 'react';
 import { Platform } from 'react-native';
 import { View, XStack } from 'tamagui';
 

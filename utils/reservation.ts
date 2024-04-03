@@ -75,3 +75,41 @@ export const editReservation = async (
     throw new Error(error.message);
   }
 };
+
+export const confirmReservation = async (reservationId: string, accessToken: string) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/reservations/${reservationId}/confirm`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || 'An unknown error occurred');
+    }
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const cancelReservation = async (reservationId: string, accessToken: string) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/reservations/${reservationId}/cancel`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || 'An unknown error occurred');
+    }
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};

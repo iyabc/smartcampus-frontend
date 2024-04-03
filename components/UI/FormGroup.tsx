@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { KeyboardTypeOptions } from 'react-native';
-import { YStack, Text, View } from 'tamagui';
+import { YStack, Text } from 'tamagui';
 
 import { InputOutlined } from '~/tamagui.config';
 
@@ -11,6 +11,7 @@ const FormGroup = ({
   onChange,
   type,
   isDisabled,
+  isMultiline,
 }: {
   label: string;
   value?: any;
@@ -18,13 +19,12 @@ const FormGroup = ({
   onChange: Dispatch<SetStateAction<any>>;
   type?: KeyboardTypeOptions | undefined;
   isDisabled?: boolean;
+  isMultiline?: boolean;
 }) => {
   return (
     <YStack>
       <Text fontSize="$5" marginBottom={4}>
-        <View display={isRequired ? 'block' : 'none'}>
-          <Text color="$red">*</Text>
-        </View>
+        {isRequired && <Text color="$red">*</Text>}
         {label}
       </Text>
       <InputOutlined
@@ -34,6 +34,7 @@ const FormGroup = ({
         keyboardType={type}
         readOnly={isDisabled}
         variant={isDisabled ? 'disabled' : 'primary'}
+        multiline={isMultiline}
       />
     </YStack>
   );

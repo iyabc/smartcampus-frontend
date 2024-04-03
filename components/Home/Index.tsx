@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { Alert, AppState } from 'react-native';
 
 import HomeScreen from './HomeScreen';
-import StaffDashboard from './StaffDashboard';
-import StudentTeacherDashboard from './StudentTeacherDashboard';
+import StaffDashboard from '../Dashboard/StaffDashboard';
+import StudentTeacherDashboard from '../Dashboard/StudentTeacherDashboard';
 
 import { useFacilities } from '~/contexts/FacilitiesContext';
 import { useSession } from '~/contexts/SessionContext';

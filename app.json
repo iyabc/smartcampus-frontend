@@ -15,7 +15,9 @@
       [
         "expo-font",
         {
-          "fonts": ["assets/fonts/Inter-Regular.ttf"]
+          "fonts": [
+            "assets/fonts/Inter-Regular.ttf"
+          ]
         }
       ]
     ],
@@ -31,7 +33,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#555555"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -39,6 +43,15 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.iyabc.smartcampusfrontend"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "add3bb7a-02a8-4bdb-a7ee-2820e605bb96"
       }
     }
   }

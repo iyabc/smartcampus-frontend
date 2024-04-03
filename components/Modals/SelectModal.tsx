@@ -24,9 +24,7 @@ const SelectModal: FC<SelectModalProps> = ({
       <Dialog.Trigger>
         <YStack>
           <Text fontSize="$5" marginBottom={4}>
-            <Text color="$red" display={isRequired ? 'block' : 'none'}>
-              *
-            </Text>
+            {isRequired && <Text color="$red">*</Text>}
             {label}
           </Text>
           <ButtonOutlined height={40} paddingHorizontal={20}>

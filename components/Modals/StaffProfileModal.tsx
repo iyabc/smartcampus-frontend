@@ -6,9 +6,9 @@ import { Dialog, Text, View, YStack } from 'tamagui';
 import MainButton from '../Buttons/MainButton';
 
 import { useUser } from '~/contexts/UserContext';
+import { tokens } from '~/tamagui.config';
 import { signOut } from '~/utils/auth';
 import { deleteSecureValue } from '~/utils/secureStore';
-import { tokens } from '~/tamagui.config';
 
 const StaffProfileModal = () => {
   const { user, changeUser } = useUser();

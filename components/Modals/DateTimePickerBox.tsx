@@ -6,10 +6,12 @@ import { ButtonOutlined, ButtonText } from '~/tamagui.config';
 
 type DatePickerBoxProps = {
   label: string;
-  date: Date;
-  setSelectedDate: Dispatch<SetStateAction<Date>>;
+  date: Date | undefined;
+  setSelectedDate: Dispatch<SetStateAction<Date | undefined>>;
   isRequired: boolean;
   mode: 'date' | 'time' | 'datetime' | undefined;
+  minimumDate?: Date | undefined;
+  maximumDate?: Date | undefined;
 };
 
 const DateTimePickerBox: FC<DatePickerBoxProps> = ({
@@ -18,6 +20,8 @@ const DateTimePickerBox: FC<DatePickerBoxProps> = ({
   setSelectedDate,
   isRequired,
   mode,
+  minimumDate,
+  maximumDate,
 }) => {
   const [isDateTimeVisible, setIsDateTimeVisible] = useState(false);
 
@@ -34,15 +38,13 @@ const DateTimePickerBox: FC<DatePickerBoxProps> = ({
     hideDateTimePicker();
   };
 
-  const formattedDate = `${date.toLocaleDateString()} `;
-  const formattedTime = `${date.toLocaleTimeString()}`;
+  // const formattedDate = date !== undefined ? `${date.toLocaleDateString()} ` : '';
+  // const formattedTime = date !== undefined ? `${date.toLocaleTimeString()}` : '';
 
   return (
     <View>
       <Text fontSize="$5" marginBottom={4}>
-        <View display={isRequired ? 'block' : 'none'}>
-          <Text color="$red">*</Text>
-        </View>
+        {isRequired && <Text color="$red">*</Text>}
         {label}
       </Text>
       <ButtonOutlined
@@ -51,14 +53,16 @@ const DateTimePickerBox: FC<DatePickerBoxProps> = ({
         flexDirection="column"
         alignItems="center"
         justifyContent="center">
-        <ButtonText color="$black">{formattedDate}</ButtonText>
-        <ButtonText color="$black">{formattedTime}</ButtonText>
+        <ButtonText color="$black">{date ? date.toDateString() : ''}</ButtonText>
+        <ButtonText color="$black">{date ? date.toTimeString() : ''}</ButtonText>
       </ButtonOutlined>
       <DateTimePicker
         isVisible={isDateTimeVisible}
         onConfirm={handleDatePicked}
         onCancel={hideDateTimePicker}
         mode={mode}
+        minimumDate={minimumDate}
+        maximumDate={maximumDate}
       />
     </View>
   );

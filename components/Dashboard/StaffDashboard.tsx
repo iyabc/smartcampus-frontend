@@ -1,30 +1,33 @@
-import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
-import { Text, View, XStack, YStack, createAlertDialogScope } from 'tamagui';
+import { Alert, FlatList } from 'react-native';
+import { Text, View } from 'tamagui';
 
-import PerDateReservationsListBox from '../Dashboard/PerDateReservationsListBox';
+import StaffReservationButton from '../Buttons/StaffReservationButton';
 import StaffDashboardHeader from '../Headers/StaffDashboardHeader';
-import DateTimePickerBox from '../Modals/DateTimePickerBox';
 
-import { useUser } from '~/contexts/UserContext';
-import { Container, InputOutlined, tokens } from '~/tamagui.config';
+import { Container } from '~/tamagui.config';
 import { getFacility } from '~/utils/facilities';
 import { getAllReservations } from '~/utils/reservation';
 import { getSecureValue } from '~/utils/secureStore';
-import { GroupedReservations, Reservation, ReservationWithDetails } from '~/utils/types';
+import { Facility, Reservation, ReservationWithDetails } from '~/utils/types';
 
 const StaffDashboard = () => {
-  const { user } = useUser();
   const [selectedReservation, setSelectedReservation] = useState<
     ReservationWithDetails | undefined
   >(undefined);
   const [searchText, setSearchText] = useState<string>('');
-  const [reservations, setReservations] = useState<GroupedReservations>({});
+  const [reservations, setReservations] = useState<ReservationWithDetails[]>([]);
+  const [shownReservations, setShownReservations] = useState<ReservationWithDetails[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedStartDate, setSelectedStartDate] = useState<Date | undefined>(undefined);
+  const [selectedEndDate, setSelectedEndDate] = useState<Date | undefined>(undefined);
+  const [selectedFacility, setSelectedFacility] = useState<Facility | undefined>(undefined);
+
+  const handleOnPress = (reservation: ReservationWithDetails) => {
+    setSelectedReservation(reservation);
+  };
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -44,8 +47,8 @@ const StaffDashboard = () => {
         );
 
         const reservationsWithDetails = await Promise.all(reservationsWithDetailsPromises);
-        const groupedReservations = groupReservationsByDate(reservationsWithDetails);
-        setReservations(groupedReservations);
+        setReservations(reservationsWithDetails);
+        setShownReservations(reservationsWithDetails);
       } catch (error: any) {
         setIsError(true);
         Alert.alert('Error fetching reservations.');
@@ -54,26 +57,14 @@ const StaffDashboard = () => {
       }
     };
 
-    if (user) {
-      fetchReservations();
+    fetchReservations();
+  }, []);
+
+  useEffect(() => {
+    if (!selectedStartDate && !selectedEndDate && !selectedFacility) {
+      setShownReservations(reservations);
     }
-  }, [user]);
-
-  const groupReservationsByDate = (fetchedReservations: ReservationWithDetails[]) => {
-    const groupedReservations: { [key: string]: ReservationWithDetails[] } = {};
-    fetchedReservations.forEach((reservation: ReservationWithDetails) => {
-      const startDate = new Date(reservation.reservation.startDate).toLocaleDateString();
-      if (!groupedReservations[startDate]) {
-        groupedReservations[startDate] = [];
-      }
-      groupedReservations[startDate].push(reservation);
-    });
-    return groupedReservations;
-  };
-
-  const handleOnPress = (reservation: ReservationWithDetails) => {
-    setSelectedReservation(reservation);
-  };
+  }, [selectedStartDate, selectedEndDate, selectedFacility]);
 
   if (isError) {
     router.replace('/');
@@ -88,9 +79,18 @@ const StaffDashboard = () => {
       <Container padding={0} backgroundColor="$white" justifyContent="flex-start">
         <StaffDashboardHeader />
         <View paddingTop={10} paddingHorizontal="$space.large">
-          <YStack gap={20}>
+          {/* <YStack gap={20}>
             <XStack justifyContent="space-between">
-              <Ionicons name="filter" size={24} color={tokens.color.black.val} />
+              <StaffDashboardFilterModal
+                selectedStartDate={selectedStartDate}
+                selectedEndDate={selectedEndDate}
+                setSelectedStartDate={setSelectedStartDate}
+                setSelectedEndDate={setSelectedEndDate}
+                selectedFacility={selectedFacility}
+                setSelectedFacility={setSelectedFacility}
+                reservations={shownReservations}
+                setReservations={setShownReservations}
+              />
               <Ionicons name="notifications" size={24} color={tokens.color.black.val} />
             </XStack>
             <InputOutlined
@@ -99,20 +99,18 @@ const StaffDashboard = () => {
               onChangeText={(query: string) => setSearchText(query)}
               variant="primary"
             />
-            <DateTimePickerBox
-              label="Select Date"
-              date={selectedDate ? selectedDate : new Date()}
-              setSelectedDate={setSelectedDate}
-              isRequired={false}
-              mode="date"
-            />
-          </YStack>
+          </YStack> */}
         </View>
         <Container justifyContent="flex-start" alignItems="stretch" padding={0}>
-          <PerDateReservationsListBox
-            date={selectedDate}
-            reservations={reservations}
-            handleOnPress={handleOnPress}
+          <FlatList
+            data={shownReservations}
+            contentContainerStyle={{ paddingHorizontal: 10, gap: 10 }}
+            renderItem={(item) => (
+              <StaffReservationButton
+                reservation={item.item}
+                onPress={() => handleOnPress(item.item)}
+              />
+            )}
           />
         </Container>
       </Container>

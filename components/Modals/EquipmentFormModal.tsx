@@ -1,24 +1,28 @@
 import { AntDesign, FontAwesome5, FontAwesome, Entypo } from '@expo/vector-icons';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { Dialog, ScrollView, Text, View, YStack, XStack, ButtonText } from 'tamagui';
 
-import FormGroup from '../UI/FormGroup';
 import MainButton from '../Buttons/MainButton';
+import FormGroup from '../UI/FormGroup';
 
 import { ButtonOutlined, InputOutlined, tokens } from '~/tamagui.config';
 import { Equipment } from '~/utils/types';
 
-const EquipmentFormModal = ({
-  initialEquipments,
-  setEquipments,
-  isOpen,
-  setIsOpen,
-}: {
+type EquipmentFormModalProps = {
+  isReadOnly: boolean;
   initialEquipments: Equipment[] | undefined;
   setEquipments: Dispatch<SetStateAction<Equipment[]>>;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+const EquipmentFormModal: FC<EquipmentFormModalProps> = ({
+  isReadOnly,
+  initialEquipments,
+  setEquipments,
+  isOpen,
+  setIsOpen,
 }) => {
   const [equipmentInputs, setEquipmentInputs] = useState<Equipment[] | undefined>(
     initialEquipments
@@ -124,35 +128,37 @@ const EquipmentFormModal = ({
             Equipment
           </Dialog.Title>
           <ScrollView height="50%" paddingHorizontal={10}>
-            <XStack gap={10} alignItems="center" marginBottom={20}>
-              <View flex={1}>
-                <FormGroup
-                  label="Name"
-                  value={currentEquipmentName}
-                  onChange={(value: string) => setCurrentEquipmentName(value)}
-                  isRequired
-                  isDisabled={false}
-                />
-              </View>
-              <View flex={1}>
-                <FormGroup
-                  label="Quantity"
-                  value={currentEquipmentQuantity.toString()}
-                  onChange={(value: number) => setCurrentEquipmentQuantity(value)}
-                  type="number-pad"
-                  isRequired
-                  isDisabled={false}
-                />
-              </View>
-              <View marginTop={25} alignItems="center">
-                <Entypo
-                  name="circle-with-plus"
-                  size={24}
-                  color="green"
-                  onPress={addEquipmentInput}
-                />
-              </View>
-            </XStack>
+            {!isReadOnly && (
+              <XStack gap={10} alignItems="center" marginBottom={20}>
+                <View flex={1}>
+                  <FormGroup
+                    label="Name"
+                    value={currentEquipmentName}
+                    onChange={(value: string) => setCurrentEquipmentName(value)}
+                    isRequired={false}
+                    isDisabled={false}
+                  />
+                </View>
+                <View flex={1}>
+                  <FormGroup
+                    label="Quantity"
+                    value={currentEquipmentQuantity.toString()}
+                    onChange={(value: number) => setCurrentEquipmentQuantity(value)}
+                    type="number-pad"
+                    isRequired={false}
+                    isDisabled={false}
+                  />
+                </View>
+                <View marginTop={25} alignItems="center">
+                  <Entypo
+                    name="circle-with-plus"
+                    size={24}
+                    color="green"
+                    onPress={addEquipmentInput}
+                  />
+                </View>
+              </XStack>
+            )}
             {equipmentInputs &&
               equipmentInputs.map((equipment: Equipment, index: number) => (
                 <XStack
@@ -171,14 +177,16 @@ const EquipmentFormModal = ({
                       readOnly
                     />
                   </View>
-                  <View>
-                    <FontAwesome
-                      name="minus-circle"
-                      size={24}
-                      color={tokens.color.red.val}
-                      onPress={() => deleteEquipmentInput(index)}
-                    />
-                  </View>
+                  {!isReadOnly && (
+                    <View>
+                      <FontAwesome
+                        name="minus-circle"
+                        size={24}
+                        color={tokens.color.red.val}
+                        onPress={() => deleteEquipmentInput(index)}
+                      />
+                    </View>
+                  )}
                 </XStack>
               ))}
           </ScrollView>

@@ -53,7 +53,7 @@ export const signUp = async (email: string, password: string, role: UserType) =>
 
   errorHandler(error);
 
-  const supabaseId = session.user?.id;
+  const supabaseId = session.session?.user.id;
   const body = { supabaseId, email, password, role };
 
   const response = await fetch(`${BACKEND_URL}/auth/sign-up`, {
