@@ -41,6 +41,8 @@ export type ReservationWithDetails = {
   facilityName: string;
 };
 
+export type GroupedReservations = { [key: string]: ReservationWithDetails[] };
+
 export type User = {
   id: string;
   name: string;

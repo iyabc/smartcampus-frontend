@@ -6,13 +6,13 @@ import { Container, tokens } from '../../tamagui.config';
 
 import ButtonWithIcon from '~/components/Buttons/ButtonWithIcon';
 import MainButton from '~/components/Buttons/MainButton';
-import StudentTeacherHeader from '~/components/Headers/StudentTeacherHeader';
+import StudentTeacherDashboardHeader from '~/components/Headers/StudentTeacherDashboardHeader';
 import { useUser } from '~/contexts/UserContext';
 import { signOut } from '~/utils/auth';
 import { deleteSecureValue } from '~/utils/secureStore';
 import { UserFull } from '~/utils/types';
 
-const Dashboard = ({ currentUser }: { currentUser: UserFull }) => {
+const StudentTeacherDashboard = ({ currentUser }: { currentUser: UserFull }) => {
   const { changeUser } = useUser();
   const iconColor: string = tokens.color.red.val;
 
@@ -31,7 +31,7 @@ const Dashboard = ({ currentUser }: { currentUser: UserFull }) => {
   return (
     <Container padding={0} backgroundColor="$blue">
       <Container padding={0} marginTop={10} backgroundColor="$white">
-        <StudentTeacherHeader />
+        <StudentTeacherDashboardHeader />
         <Container marginTop={22} justifyContent="space-around">
           <YStack gap={14} alignItems="center">
             <ButtonWithIcon
@@ -59,4 +59,4 @@ const Dashboard = ({ currentUser }: { currentUser: UserFull }) => {
   );
 };
 
-export default Dashboard;
+export default StudentTeacherDashboard;

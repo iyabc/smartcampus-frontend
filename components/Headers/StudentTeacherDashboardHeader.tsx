@@ -1,18 +1,17 @@
-import Ionicons from '@expo/vector-icons/build/Ionicons';
 import { Image } from 'expo-image';
-import { Text, View, XStack, YStack } from 'tamagui';
+import { Text, View, YStack } from 'tamagui';
 
 import { useUser } from '~/contexts/UserContext';
 import { tokens } from '~/tamagui.config';
 
-const StudentTeacherHeader = () => {
+const StudentTeacherDashboardHeader = () => {
   const { user } = useUser();
   const backgroundColor = tokens.color.blue.val;
 
   return (
     <View>
       <View width="100%" backgroundColor={backgroundColor}>
-        <XStack justifyContent="space-between" alignItems="center" paddingHorizontal={24}>
+        <View paddingHorizontal={24}>
           <Image
             source="https://cipsjtikuxepydmaukzr.supabase.co/storage/v1/object/public/assets/logo_horizontal.png"
             style={{
@@ -22,8 +21,7 @@ const StudentTeacherHeader = () => {
             contentFit="contain"
             transition={1000}
           />
-          <Ionicons name="notifications" size={24} color={tokens.color.white.val} />
-        </XStack>
+        </View>
         <YStack alignItems="center" gap={10}>
           <View
             backgroundColor="$grey"
@@ -78,4 +76,4 @@ const StudentTeacherHeader = () => {
   );
 };
 
-export default StudentTeacherHeader;
+export default StudentTeacherDashboardHeader;

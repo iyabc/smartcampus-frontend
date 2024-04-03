@@ -3,6 +3,7 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import React, { useCallback } from 'react';
 import { useColorScheme } from 'react-native';
+import { RootSiblingParent } from 'react-native-root-siblings';
 import { TamaguiProvider } from 'tamagui';
 
 import { FacilitiesProvider } from '~/contexts/FacilitiesContext';
@@ -28,20 +29,22 @@ export default function Layout() {
   }
 
   return (
-    <TamaguiProvider config={config} defaultTheme={colorScheme || ''}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <SessionProvider>
-          <UserProvider>
-            <FacilitiesProvider>
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                }}
-              />
-            </FacilitiesProvider>
-          </UserProvider>
-        </SessionProvider>
-      </ThemeProvider>
-    </TamaguiProvider>
+    <RootSiblingParent>
+      <TamaguiProvider config={config} defaultTheme={colorScheme || ''}>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <SessionProvider>
+            <UserProvider>
+              <FacilitiesProvider>
+                <Stack
+                  screenOptions={{
+                    headerShown: false,
+                  }}
+                />
+              </FacilitiesProvider>
+            </UserProvider>
+          </SessionProvider>
+        </ThemeProvider>
+      </TamaguiProvider>
+    </RootSiblingParent>
   );
 }

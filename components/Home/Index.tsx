@@ -2,8 +2,9 @@ import { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { Alert, AppState } from 'react-native';
 
-import Dashboard from './Dashboard';
 import HomeScreen from './HomeScreen';
+import StaffDashboard from '../Dashboard/StaffDashboard';
+import StudentTeacherDashboard from '../Dashboard/StudentTeacherDashboard';
 
 import { useFacilities } from '~/contexts/FacilitiesContext';
 import { useSession } from '~/contexts/SessionContext';
@@ -73,15 +74,15 @@ const Index = () => {
     });
   }, []);
 
-  return (
-    <>
-      {session && session.user && user ? (
-        <Dashboard currentUser={user} />
-      ) : (
-        <HomeScreen loading={loading} />
-      )}
-    </>
-  );
+  if (session && session.user && user) {
+    if (user.role === 'STUDENT' || user.role === 'TEACHER') {
+      return <StudentTeacherDashboard currentUser={user} />;
+    } else {
+      return <StaffDashboard />;
+    }
+  }
+
+  return <HomeScreen loading={loading} />;
 };
 
 export default Index;

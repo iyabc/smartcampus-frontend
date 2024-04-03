@@ -47,8 +47,13 @@ const LoginRegisterForm: React.FC<LoginRegisterFormProps> = ({ displayType, onBa
     try {
       setLoading(true);
       const user = await signUp(email, password, displayType);
-      saveSecureValue('accessToken', user.accessToken);
-      changeUser(user.data);
+      if (user) {
+        deleteSecureValue('accessToken');
+        deleteSecureValue('userId');
+        saveSecureValue('userId', user.data.userId);
+        router.replace('/');
+        Alert.alert('Successful registration. Please login.');
+      }
     } catch (error: any) {
       Alert.alert('Error: ', error.message);
     }

@@ -2,6 +2,21 @@ import { BACKEND_URL } from '@env';
 
 import { Reservation } from './types';
 
+export const getAllReservations = async (accessToken: string) => {
+  const response = await fetch(`${BACKEND_URL}/reservations`, {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (!response.ok) {
+    throw new Error('Error fetching reservations.');
+  }
+
+  const result = await response.json();
+
+  return result;
+};
+
 export const getReservation = async (id: string, accessToken: string) => {
   const response = await fetch(`${BACKEND_URL}/reservations/${id}`, {
     method: 'GET',
@@ -50,6 +65,44 @@ export const editReservation = async (
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(reservation),
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || 'An unknown error occurred');
+    }
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const confirmReservation = async (reservationId: string, accessToken: string) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/reservations/${reservationId}/confirm`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || 'An unknown error occurred');
+    }
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const cancelReservation = async (reservationId: string, accessToken: string) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/reservations/${reservationId}/cancel`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     if (!response.ok) {

@@ -1,13 +1,13 @@
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ToastAndroid } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { Form, ScrollView, View } from 'tamagui';
 
 import MainButton from '../Buttons/MainButton';
-import DateTimePickerBox from '../UI/DateTimePickerBox';
-import EquipmentFormModal from '../UI/EquipmentFormModal';
+import DateTimePickerBox from '../Modals/DateTimePickerBox';
+import EquipmentFormModal from '../Modals/EquipmentFormModal';
+import SelectModal from '../Modals/SelectModal';
 import FormGroup from '../UI/FormGroup';
-import SelectModal from '../UI/SelectModal';
 
 import { useFacilities } from '~/contexts/FacilitiesContext';
 import { useUser } from '~/contexts/UserContext';
@@ -27,8 +27,8 @@ const AddEditReservationForm = ({
 }) => {
   const [facility, setFacility] = useState<Facility>();
   const [equipments, setEquipments] = useState<Equipment[]>([]);
-  const [startDateTime, setStartDateTime] = useState<Date>(new Date());
-  const [endDateTime, setEndDateTime] = useState<Date>(new Date());
+  const [startDateTime, setStartDateTime] = useState<Date | undefined>(undefined);
+  const [endDateTime, setEndDateTime] = useState<Date | undefined>(undefined);
   const [professorName, setProfessorName] = useState<string>('');
   const [classGrade, setClassGrade] = useState<string>('');
   const [isEquipmentFormModalOpen, setEquipmentFormModalOpen] = useState<boolean>(false);
@@ -36,6 +36,10 @@ const AddEditReservationForm = ({
   const { user } = useUser();
 
   const handleSubmit = async () => {
+    if (!startDateTime || !endDateTime) {
+      return;
+    }
+
     let formData: Reservation = {
       userId: user?.id || '',
       facilityId: facility?.id || 0,
@@ -62,13 +66,8 @@ const AddEditReservationForm = ({
       if (token) {
         if (type === 'ADD') {
           await addReservation(formData, token);
-          ToastAndroid.show(
-            `Reservation for facility ${formData.facilityId} added.`,
-            ToastAndroid.CENTER
-          );
         } else if (type === 'EDIT' && reservation?.reservation.id) {
           await editReservation(formData, reservation.reservation.id, token);
-          ToastAndroid.show(`Reservation edited.`, ToastAndroid.CENTER);
         }
         router.replace('/');
       }
@@ -133,6 +132,7 @@ const AddEditReservationForm = ({
                 initialEquipments={equipments}
                 isOpen={isEquipmentFormModalOpen}
                 setIsOpen={setEquipmentFormModalOpen}
+                isReadOnly={false}
               />
             </View>
           </XStackSpaceBetween>
@@ -143,6 +143,9 @@ const AddEditReservationForm = ({
                 setSelectedDate={setStartDateTime}
                 isRequired
                 date={startDateTime}
+                mode="datetime"
+                minimumDate={new Date()}
+                maximumDate={endDateTime && endDateTime}
               />
             </View>
             <View flex={1}>
@@ -151,6 +154,8 @@ const AddEditReservationForm = ({
                 setSelectedDate={setEndDateTime}
                 isRequired
                 date={endDateTime}
+                mode="datetime"
+                minimumDate={startDateTime && startDateTime}
               />
             </View>
           </XStackSpaceBetween>
