@@ -19,7 +19,7 @@ const HomeScreen = ({ loading }: { loading: boolean }) => {
 
   return (
     <Container alignItems="center" padding={0} backgroundColor="$blue">
-      {/* <Video
+      <Video
         source={{
           uri: 'https://cipsjtikuxepydmaukzr.supabase.co/storage/v1/object/public/assets/home_vid.mp4',
         }}
@@ -28,7 +28,7 @@ const HomeScreen = ({ loading }: { loading: boolean }) => {
         shouldPlay
         isMuted
         style={{ flex: 1, width: '100%', height: '100%', opacity: 0.5 }}
-      /> */}
+      />
       <Main
         position="absolute"
         gap={40}

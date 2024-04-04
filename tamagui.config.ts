@@ -95,6 +95,15 @@ export const ButtonOutlined = styled(YStack, {
   paddingVertical: 8,
 });
 
+export const ButtonPill = styled(Button, {
+  paddingHorizontal: 10,
+  shadowColor: '#000',
+  shadowOffset: { height: 2, width: 0 },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 2,
+});
+
 export const TextInputBottomBorder = styled(Input, {
   backgroundColor: 'transparent',
   borderWidth: 0,

@@ -1,4 +1,4 @@
-import { Text, XStack, YStack } from 'tamagui';
+import { ButtonText, Text, View, XStack, YStack } from 'tamagui';
 
 import StaffReservationModal from '../Modals/StaffReservationModal';
 
@@ -14,6 +14,7 @@ const StaffReservationButton = ({
 }) => {
   const startDate = new Date(reservation.reservation.startDate).toLocaleTimeString();
   const endDate = new Date(reservation.reservation.endDate).toLocaleTimeString();
+  const status = reservation.reservation.status;
 
   return (
     <Button
@@ -33,6 +34,17 @@ const StaffReservationButton = ({
           {reservation.reservation.professorName && (
             <Text>{reservation.reservation.professorName}</Text>
           )}
+          <XStack alignItems="center" gap={7} padding={4} marginTop={5}>
+            <View
+              backgroundColor={
+                status === 'CONFIRMED' ? 'green' : status === 'CANCELLED' ? '$red' : '$grey'
+              }
+              height={10}
+              width={10}
+              borderRadius="$radius.full"
+            />
+            <ButtonText color="$black">{status}</ButtonText>
+          </XStack>
         </YStack>
         <StaffReservationModal reservation={reservation} />
       </XStack>
