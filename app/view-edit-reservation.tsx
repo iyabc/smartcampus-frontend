@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList } from 'react-native';
-import { View } from 'tamagui';
+import { View, XStack } from 'tamagui';
 
 import AddEditReservationForm from '~/components/Forms/AddEditReservationForm';
 import PageHeader from '~/components/Headers/PageHeader';
 import PageWrapper from '~/components/UI/PageWrapper';
 import { useUser } from '~/contexts/UserContext';
 import {
+  ButtonText,
   InputOutlined,
   ReservationCardButton,
   TextWhite,
@@ -28,6 +29,8 @@ const ReservationCard = ({
   const startDate = new Date(reservation.reservation.startDate).toLocaleString();
   const endDate = new Date(reservation.reservation.endDate).toLocaleString();
 
+  const status = reservation.reservation.status;
+
   return (
     <ReservationCardButton key={reservation.reservation.id} onPress={onPress}>
       <XStackSpaceBetween>
@@ -46,6 +49,24 @@ const ReservationCard = ({
         <TextWhite>End</TextWhite>
         <TextWhite>{endDate}</TextWhite>
       </XStackSpaceBetween>
+      <XStack
+        alignItems="center"
+        gap={7}
+        padding={4}
+        marginTop={5}
+        backgroundColor="$white"
+        borderRadius="$radius.full"
+        paddingHorizontal={20}>
+        <View
+          backgroundColor={
+            status === 'CONFIRMED' ? 'green' : status === 'CANCELLED' ? '$red' : '$grey'
+          }
+          height={10}
+          width={10}
+          borderRadius="$radius.full"
+        />
+        <ButtonText color="$black">{status}</ButtonText>
+      </XStack>
     </ReservationCardButton>
   );
 };
@@ -140,7 +161,7 @@ const ViewEditReservation = () => {
 
   return (
     <PageWrapper>
-      <PageHeader title="Edit Reservation" />
+      <PageHeader title="View/Edit Reservation" />
       {!selectedReservation && (
         <InputOutlined
           placeholder="Search reservations"

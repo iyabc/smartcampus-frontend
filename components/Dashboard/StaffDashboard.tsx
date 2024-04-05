@@ -121,19 +121,6 @@ const StaffDashboard = () => {
         <StaffDashboardHeader />
         <View paddingTop={10} paddingHorizontal="$space.large">
           <YStack gap={20}>
-            {/*  <XStack justifyContent="space-between">
-              <StaffDashboardFilterModal
-                selectedStartDate={selectedStartDate}
-                selectedEndDate={selectedEndDate}
-                setSelectedStartDate={setSelectedStartDate}
-                setSelectedEndDate={setSelectedEndDate}
-                selectedFacility={selectedFacility}
-                setSelectedFacility={setSelectedFacility}
-                reservations={shownReservations}
-                setReservations={setShownReservations}
-              />
-              <Ionicons name="notifications" size={24} color={tokens.color.black.val} />
-            </XStack>*/}
             <InputOutlined
               placeholder="Search reservations"
               value={searchText}

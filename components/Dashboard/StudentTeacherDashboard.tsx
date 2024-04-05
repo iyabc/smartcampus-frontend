@@ -42,7 +42,7 @@ const StudentTeacherDashboard = ({ currentUser }: { currentUser: UserFull }) => 
             />
             <ButtonWithIcon
               iconName="eye"
-              text="View Reservation"
+              text="View/Edit Reservation"
               color={iconColor}
               href="/view-edit-reservation"
             />
