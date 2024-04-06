@@ -2,13 +2,11 @@ import { ResizeMode, Video } from 'expo-av';
 import { Image } from 'expo-image';
 import { useState } from 'react';
 import { ActivityIndicator, useWindowDimensions } from 'react-native';
-import Toast from 'react-native-root-toast';
 import { Main, YStack, View } from 'tamagui';
 
 import MainButton from '~/components/Buttons/MainButton';
 import LoginRegisterForm from '~/components/Forms/LoginRegisterForm';
 import { Container } from '~/tamagui.config';
-import { toastMessage } from '~/utils/toast';
 import { UserType } from '~/utils/types';
 
 const HomeScreen = ({ loading }: { loading: boolean }) => {

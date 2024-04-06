@@ -23,6 +23,9 @@ dependencies:
   '@react-native/assets-registry':
     specifier: 0.75.0-main
     version: 0.75.0-main
+  '@react-native/gradle-plugin':
+    specifier: 0.75.0-main
+    version: 0.75.0-main
   '@react-navigation/native':
     specifier: ^6.1.7
     version: 6.1.17(react-native@0.73.6)(react@18.2.0)
@@ -47,6 +50,9 @@ dependencies:
   axios:
     specifier: ^1.6.7
     version: 1.6.8
+  babel-preset-expo:
+    specifier: ^10.0.1
+    version: 10.0.1(@babel/core@7.24.3)
   expo:
     specifier: ~50.0.11
     version: 50.0.14(@babel/core@7.24.3)(@react-native/babel-preset@0.73.21)
@@ -2854,6 +2860,11 @@ packages:
 
   /@react-native/gradle-plugin@0.73.4:
     resolution: {integrity: sha512-PMDnbsZa+tD55Ug+W8CfqXiGoGneSSyrBZCMb5JfiB3AFST3Uj5e6lw8SgI/B6SKZF7lG0BhZ6YHZsRZ5MlXmg==}
+    engines: {node: '>=18'}
+    dev: false
+
+  /@react-native/gradle-plugin@0.75.0-main:
+    resolution: {integrity: sha512-79inkmCkz9ftDBQbu1n5QZyg5axPJwV4qLBSEBEAOe+kH+Uq4/v4liDC+3Oc/JFkq7vcgrqX8TQCbgb1BHFDbw==}
     engines: {node: '>=18'}
     dev: false
 
